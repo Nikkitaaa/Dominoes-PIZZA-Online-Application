@@ -1,0 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.majorproject.db;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author Nikita
+ */
+public class MYSQLConnection {
+    private static Connection connection = null;
+   public static Connection getConnection(){ 
+    try{
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/DATABASE_NAME","PASSWORD","USERNAME");
+        System.out.println("success");
+        }catch(ClassNotFoundException ex){
+            System.out.println("something went wrong" + ex);
+        }catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return connection;
+   }
+  
+   }
+
