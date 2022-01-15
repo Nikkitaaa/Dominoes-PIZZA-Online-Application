@@ -1,0 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.majorproject.dao;
+
+import com.mycompany.majorproject.db.MYSQLConnection;
+import com.mycompany.majorproject.pojo.Ledger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Nikita
+ */
+public class LedgerDAO {
+    public static List<Ledger> getAllRecords() throws SQLException {
+        List<Ledger> data = new ArrayList<>();
+        Connection connection = MYSQLConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM LEDGER");
+        ResultSet rs = ps.executeQuery();
+        
+          
+        while (rs.next()) {
+            data.add(new Ledger(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getDouble(4),rs.getTimestamp(5)));
+        }
+        return data;
+    }
+    public static void saveRecord(Ledger ledger) throws SQLException{
+        Connection connection = MYSQLConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO LEDGER(NAME,EMAIL,AMOUNT)VALUES(?,?,?)");
+        ps.setString(1,ledger.getName());
+        ps.setString(2,ledger.getEmail());
+        ps.setDouble(3,ledger.getAmount());
+        int ans = ps.executeUpdate();
+    }
+}
